@@ -117,6 +117,21 @@ export function RightPanel({
 
             <Section title="文字排版" icon={<Type size={14} />}>
               <Slider label="字号" value={globalStyle.fontSize} min={10} max={32} onChange={v => setGlobalStyle({ fontSize: v })} suffix="px" />
+              
+              <div className="mt-4 mb-4">
+                <label className="text-xs text-[#60607a] mb-2 block">对齐方式</label>
+                <div className="flex gap-2 mb-2">
+                  <AlignButton active={globalStyle.hAlign === 'left'} onClick={() => setGlobalStyle({ hAlign: 'left' })} icon={<AlignLeft size={16} />} />
+                  <AlignButton active={globalStyle.hAlign === 'center'} onClick={() => setGlobalStyle({ hAlign: 'center' })} icon={<AlignCenter size={16} />} />
+                  <AlignButton active={globalStyle.hAlign === 'right'} onClick={() => setGlobalStyle({ hAlign: 'right' })} icon={<AlignRight size={16} />} />
+                </div>
+                <div className="flex gap-2">
+                  <AlignButton active={globalStyle.vAlign === 'top'} onClick={() => setGlobalStyle({ vAlign: 'top' })} icon={<span className="text-xs font-bold">TOP</span>} />
+                  <AlignButton active={globalStyle.vAlign === 'middle'} onClick={() => setGlobalStyle({ vAlign: 'middle' })} icon={<span className="text-xs font-bold">MID</span>} />
+                  <AlignButton active={globalStyle.vAlign === 'bottom'} onClick={() => setGlobalStyle({ vAlign: 'bottom' })} icon={<span className="text-xs font-bold">BOT</span>} />
+                </div>
+              </div>
+
               <div className="mt-4">
                 <label className="text-xs text-[#60607a] mb-2 block">字体系列</label>
                 <select 

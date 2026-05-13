@@ -127,11 +127,23 @@ export function TableEditor() {
   // --- STRUCTURE EDITING ---
 
   const addRow = useCallback(() => {
-    setData(prev => [...prev, Array(prev[0].length).fill('')]);
+    setData(prev => {
+      if (prev.length >= 30) {
+        alert('不能超过 30 行');
+        return prev;
+      }
+      return [...prev, Array(prev[0].length).fill('')];
+    });
   }, []);
 
   const addCol = useCallback(() => {
-    setData(prev => prev.map(row => [...row, '']));
+    setData(prev => {
+      if (prev[0].length >= 30) {
+        alert('不能超过 30 列');
+        return prev;
+      }
+      return prev.map(row => [...row, '']);
+    });
   }, []);
 
   const deleteRow = useCallback(() => {
@@ -235,14 +247,30 @@ export function TableEditor() {
       return next;
     });
 
-    // Clear content of merged cells (except top-left)
+    // Combine content of merged cells
     setData(prev => {
       const next = [...prev];
+      const combinedText: string[] = [];
+      
+      for (let r = minR; r <= maxR; r++) {
+        for (let c = minC; c <= maxC; c++) {
+          const val = prev[r][c];
+          if (val !== undefined && val !== null && String(val).trim() !== '') {
+            combinedText.push(String(val).trim());
+          }
+        }
+      }
+      
+      const mergedValue = combinedText.join(' ');
+      
       for (let r = minR; r <= maxR; r++) {
         next[r] = [...next[r]];
         for (let c = minC; c <= maxC; c++) {
-          if (r === minR && c === minC) continue;
-          next[r][c] = '';
+          if (r === minR && c === minC) {
+            next[r][c] = mergedValue;
+          } else {
+            next[r][c] = '';
+          }
         }
       }
       return next;
@@ -284,14 +312,53 @@ export function TableEditor() {
       
       // Pad rows to equal length
       const maxCol = Math.max(...jsonData.map(r => r.length));
-      const paddedData = jsonData.map(r => {
-        const newRow = [...r];
-        while (newRow.length < maxCol) newRow.push('');
+      
+      let finalData = jsonData;
+      if (finalData.length > 30 || maxCol > 30) {
+        alert('导入的数据将被截断，表格最大限制为 30行 × 30列');
+      }
+
+      // Truncate to 30x30
+      finalData = finalData.slice(0, 30);
+      const actualMaxCol = Math.min(maxCol, 30);
+
+      const paddedData = finalData.map(r => {
+        const newRow = [...r].slice(0, 30);
+        while (newRow.length < actualMaxCol) newRow.push('');
         return newRow;
       });
 
+      const newMerges: Record<string, MergeInfo | 'hidden'> = {};
+      if (ws['!merges']) {
+        ws['!merges'].forEach(m => {
+          const { s, e } = m;
+          // Skip if the merge starts outside our bounds
+          if (s.r >= 30 || s.c >= 30) return;
+          
+          const maxR = Math.min(e.r, 29);
+          const maxC = Math.min(e.c, 29);
+          const rs = maxR - s.r + 1;
+          const cs = maxC - s.c + 1;
+
+          if (rs > 1 || cs > 1) {
+            newMerges[`${s.r},${s.c}`] = { rs, cs };
+            for (let r = s.r; r <= maxR; r++) {
+              for (let c = s.c; c <= maxC; c++) {
+                if (r === s.r && c === s.c) continue;
+                newMerges[`${r},${c}`] = 'hidden';
+                
+                // Set hidden cell value to empty string safely
+                if (paddedData[r] && paddedData[r][c] !== undefined) {
+                  paddedData[r][c] = '';
+                }
+              }
+            }
+          }
+        });
+      }
+
       setData(paddedData);
-      setMerges({});
+      setMerges(newMerges);
       setCellStyles({});
       setRowStyles({});
       setColStyles({});
@@ -307,9 +374,19 @@ export function TableEditor() {
     const rows = content.split('\n').filter(l => l.trim()).map(l => l.split(sep).map(v => v.trim().replace(/^"|"$/g, '')));
     
     const maxCol = Math.max(...rows.map(r => r.length));
-    const paddedData = rows.map(r => {
-      const newRow = [...r];
-      while (newRow.length < maxCol) newRow.push('');
+    
+    let finalRows = rows;
+    if (finalRows.length > 30 || maxCol > 30) {
+      alert('导入的数据将被截断，表格最大限制为 30行 × 30列');
+    }
+
+    // Truncate to 30x30
+    finalRows = finalRows.slice(0, 30);
+    const actualMaxCol = Math.min(maxCol, 30);
+
+    const paddedData = finalRows.map(r => {
+      const newRow = [...r].slice(0, 30);
+      while (newRow.length < actualMaxCol) newRow.push('');
       return newRow;
     });
 

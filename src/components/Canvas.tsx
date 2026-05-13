@@ -82,9 +82,12 @@ export function Canvas({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTableCellElement>, r: number, c: number) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !e.altKey) {
       e.preventDefault();
       e.currentTarget.blur();
+    } else if (e.key === 'Enter' && (e.shiftKey || e.altKey)) {
+      e.preventDefault();
+      document.execCommand('insertText', false, '\n');
     }
     if (e.key === 'Escape') {
       e.preventDefault();
@@ -147,8 +150,8 @@ export function Canvas({
                       onKeyDown={(e) => handleKeyDown(e, r, c)}
                       className={cn(
                         "outline-none cursor-default transition-all duration-75 relative",
-                        !style.wrapText && "whitespace-nowrap",
-                        style.wrapText && "whitespace-normal break-words",
+                        !style.wrapText && "whitespace-pre",
+                        style.wrapText && "whitespace-pre-wrap break-words",
                         isEditing && "cursor-text ring-2 ring-[#6eb5c8] z-50",
                         isSelected && !isEditing && "ring-2 ring-[#c9aa72] z-40",
                         isRCSelected && !isSelected && !isEditing && "ring-2 ring-[#6eb5c8] z-30 opacity-90"

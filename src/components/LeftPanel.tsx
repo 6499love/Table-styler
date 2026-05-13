@@ -63,6 +63,9 @@ export function LeftPanel({
             <p className="text-xs text-[#60607a]">
               支持 .xlsx / .csv 格式
             </p>
+            <p className="text-[10px] text-[#60607a] mt-2">
+              仅读取第一个 Sheet，最大 30x30
+            </p>
           </div>
           
           <div className="space-y-3">
@@ -75,6 +78,9 @@ export function LeftPanel({
             <Button onClick={() => onImportCSV(csvContent)} variant="secondary" className="w-full">
               导入文本数据
             </Button>
+            <p className="text-[#60607a] text-[10px] text-center mt-2">
+              注意：为了防止卡顿，表格最大限制为 30 行 × 30 列
+            </p>
           </div>
         </Section>
 
