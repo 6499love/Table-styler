@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GlobalStyle, CellStyle, PALETTES } from '../lib/types';
 import { cn } from '../lib/utils';
-import { Palette, Type, Layout, Grid, Settings, AlignLeft, AlignCenter, AlignRight, Bold } from 'lucide-react';
+import { Palette, Type, Layout, Grid, Settings, AlignLeft, AlignCenter, AlignRight, Bold, WrapText } from 'lucide-react';
 
 interface RightPanelProps {
   globalStyle: GlobalStyle;
@@ -12,6 +12,8 @@ interface RightPanelProps {
   selectedRC: Set<number>;
   updateSelectionStyle: (s: Partial<CellStyle>) => void;
   clearSelectionStyle: () => void;
+  onSelectParentRow: () => void;
+  onSelectParentCol: () => void;
 }
 
 export function RightPanel({
@@ -22,7 +24,9 @@ export function RightPanel({
   selectedCells,
   selectedRC,
   updateSelectionStyle,
-  clearSelectionStyle
+  clearSelectionStyle,
+  onSelectParentRow,
+  onSelectParentCol
 }: RightPanelProps) {
   const [activeTab, setActiveTab] = useState<'global' | 'selection'>('global');
 
@@ -94,7 +98,19 @@ export function RightPanel({
 
             <Section title="布局与尺寸" icon={<Layout size={14} />}>
               <Slider label="圆角" value={globalStyle.radius} min={0} max={24} onChange={v => setGlobalStyle({ radius: v })} suffix="px" />
-              <Slider label="描边宽度" value={globalStyle.borderWidth} min={0} max={6} step={0.5} onChange={v => setGlobalStyle({ borderWidth: v })} suffix="px" />
+              <Slider label="描边宽度" value={globalStyle.borderWidth} min={0} max={10} step={1} onChange={v => setGlobalStyle({ borderWidth: v })} suffix="px" />
+              
+              <div className="mb-4">
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm text-[#60607a]">描边方式</span>
+                </div>
+                <div className="flex gap-2">
+                  <ModeButton active={globalStyle.strokeAlign === 'inside'} onClick={() => setGlobalStyle({ strokeAlign: 'inside' })} label="内部" />
+                  <ModeButton active={globalStyle.strokeAlign === 'center'} onClick={() => setGlobalStyle({ strokeAlign: 'center' })} label="居中" />
+                  <ModeButton active={globalStyle.strokeAlign === 'outside'} onClick={() => setGlobalStyle({ strokeAlign: 'outside' })} label="外部" />
+                </div>
+              </div>
+
               <Slider label="内边距" value={globalStyle.padding} min={4} max={32} onChange={v => setGlobalStyle({ padding: v })} suffix="px" />
               <Slider label="单元格间距" value={globalStyle.gap} min={0} max={20} onChange={v => setGlobalStyle({ gap: v })} suffix="px" />
             </Section>
@@ -126,6 +142,11 @@ export function RightPanel({
                 checked={globalStyle.zebraOn} 
                 onChange={v => setGlobalStyle({ zebraOn: v })} 
               />
+              <Toggle 
+                label="自动换行" 
+                checked={globalStyle.wrapText} 
+                onChange={v => setGlobalStyle({ wrapText: v })} 
+              />
             </Section>
           </>
         )}
@@ -146,6 +167,16 @@ export function RightPanel({
                 <ModeButton active={selectionMode === 'row'} onClick={() => setSelectionMode('row')} label="行" />
                 <ModeButton active={selectionMode === 'col'} onClick={() => setSelectionMode('col')} label="列" />
               </div>
+              {selectionMode === 'cell' && selectedCells.size > 0 && (
+                <div className="flex gap-2 mt-3 text-xs">
+                  <button onClick={onSelectParentRow} className="flex-1 py-1.5 bg-[#1c1c1f] border border-[#2c2c32] text-[#e4e4ea] rounded hover:border-[#6eb5c8] hover:text-[#6eb5c8] transition-colors">
+                    选中所在行
+                  </button>
+                  <button onClick={onSelectParentCol} className="flex-1 py-1.5 bg-[#1c1c1f] border border-[#2c2c32] text-[#e4e4ea] rounded hover:border-[#6eb5c8] hover:text-[#6eb5c8] transition-colors">
+                    选中所在列
+                  </button>
+                </div>
+              )}
             </div>
 
             <Section title="样式覆盖" icon={<Palette size={14} />}>
@@ -159,8 +190,10 @@ export function RightPanel({
             <Section title="文字样式" icon={<Type size={14} />}>
               <Slider label="字号" value={14} min={10} max={32} onChange={v => updateSelectionStyle({ fontSize: v })} suffix="px" />
               <div className="flex gap-2 mt-4">
-                <StyleButton onClick={() => updateSelectionStyle({ bold: true })} active={false} icon={<Bold size={16} />} />
-                <StyleButton onClick={() => updateSelectionStyle({ bold: false })} active={false} icon={<Type size={16} />} />
+                <StyleButton onClick={() => updateSelectionStyle({ bold: true })} active={false} icon={<Bold size={16} />} title="加粗" />
+                <StyleButton onClick={() => updateSelectionStyle({ bold: false })} active={false} icon={<Type size={16} />} title="取消加粗" />
+                <StyleButton onClick={() => updateSelectionStyle({ wrapText: true })} active={false} icon={<WrapText size={16} />} title="自动换行" />
+                <StyleButton onClick={() => updateSelectionStyle({ wrapText: false })} active={false} icon={<span className="text-xs font-bold whitespace-nowrap">不换行</span>} title="取消换行" />
               </div>
             </Section>
 
@@ -266,9 +299,10 @@ const AlignButton = ({ active, onClick, icon }: any) => (
   </button>
 );
 
-const StyleButton = ({ active, onClick, icon }: any) => (
+const StyleButton = ({ active, onClick, icon, title }: any) => (
   <button
     onClick={onClick}
+    title={title}
     className={cn(
       "flex-1 h-9 flex items-center justify-center rounded-lg border transition-all",
       active 

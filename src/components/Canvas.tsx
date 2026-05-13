@@ -55,6 +55,7 @@ export function Canvas({
       fontSize: globalStyle.fontSize,
       hAlign: globalStyle.hAlign,
       vAlign: globalStyle.vAlign,
+      wrapText: globalStyle.wrapText,
     };
 
     // Apply Row/Col overrides
@@ -93,7 +94,7 @@ export function Canvas({
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0c0c0e]">
+    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0c0c0e] min-w-0" style={{ flex: 1 }}>
       {/* Preview Area */}
       <div 
         ref={previewRef}
@@ -145,7 +146,9 @@ export function Canvas({
                       onBlur={(e) => handleBlur(e, r, c)}
                       onKeyDown={(e) => handleKeyDown(e, r, c)}
                       className={cn(
-                        "outline-none whitespace-nowrap cursor-default transition-all duration-75 relative",
+                        "outline-none cursor-default transition-all duration-75 relative",
+                        !style.wrapText && "whitespace-nowrap",
+                        style.wrapText && "whitespace-normal break-words",
                         isEditing && "cursor-text ring-2 ring-[#6eb5c8] z-50",
                         isSelected && !isEditing && "ring-2 ring-[#c9aa72] z-40",
                         isRCSelected && !isSelected && !isEditing && "ring-2 ring-[#6eb5c8] z-30 opacity-90"
@@ -153,7 +156,10 @@ export function Canvas({
                       style={{
                         backgroundColor: style.bg,
                         color: style.text,
-                        border: `${globalStyle.borderWidth}px solid ${style.border}`,
+                        outline: `${globalStyle.borderWidth}px solid ${style.border}`,
+                        outlineOffset: globalStyle.strokeAlign === 'inside' ? `-${globalStyle.borderWidth}px` 
+                                     : globalStyle.strokeAlign === 'center' ? `-${globalStyle.borderWidth / 2}px` 
+                                     : '0px',
                         borderRadius: `${globalStyle.radius}px`,
                         padding: `${globalStyle.padding}px ${Math.round(globalStyle.padding * 1.4)}px`,
                         fontSize: `${style.fontSize}px`,

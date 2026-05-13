@@ -7,6 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export type AlignH = 'left' | 'center' | 'right';
 export type AlignV = 'top' | 'middle' | 'bottom';
+export type StrokeAlign = 'inside' | 'center' | 'outside';
 
 export interface CellStyle {
   bg?: string;
@@ -16,6 +17,7 @@ export interface CellStyle {
   bold?: boolean;
   hAlign?: AlignH;
   vAlign?: AlignV;
+  wrapText?: boolean;
 }
 
 export interface MergeInfo {
@@ -26,6 +28,7 @@ export interface MergeInfo {
 export interface GlobalStyle {
   radius: number;
   borderWidth: number;
+  strokeAlign: StrokeAlign;
   padding: number;
   gap: number;
   fontSize: number;
@@ -35,6 +38,7 @@ export interface GlobalStyle {
   headerOn: boolean;
   zebraOn: boolean;
   paletteIndex: number;
+  wrapText: boolean;
 }
 
 export interface TableData {
@@ -71,6 +75,7 @@ export const INITIAL_DATA: string[][] = [
 export const DEFAULT_GLOBAL_STYLE: GlobalStyle = {
   radius: 8,
   borderWidth: 1,
+  strokeAlign: 'inside',
   padding: 10,
   gap: 3,
   fontSize: 14,
@@ -80,4 +85,5 @@ export const DEFAULT_GLOBAL_STYLE: GlobalStyle = {
   headerOn: true,
   zebraOn: false,
   paletteIndex: 0,
+  wrapText: false,
 };

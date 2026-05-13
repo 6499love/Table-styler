@@ -106,6 +106,24 @@ export function TableEditor() {
     }
   }, [selectionMode, selectedCells, selectedRC]);
 
+  const handleSelectParentRow = useCallback(() => {
+    if (selectedCells.size === 0) return;
+    const rows = new Set<number>();
+    selectedCells.forEach(key => rows.add(parseInt(key.split(',')[0])));
+    setSelectionMode('row');
+    setSelectedRC(rows);
+    setSelectedCells(new Set());
+  }, [selectedCells]);
+
+  const handleSelectParentCol = useCallback(() => {
+    if (selectedCells.size === 0) return;
+    const cols = new Set<number>();
+    selectedCells.forEach(key => cols.add(parseInt(key.split(',')[1])));
+    setSelectionMode('col');
+    setSelectedRC(cols);
+    setSelectedCells(new Set());
+  }, [selectedCells]);
+
   // --- STRUCTURE EDITING ---
 
   const addRow = useCallback(() => {
@@ -331,7 +349,7 @@ export function TableEditor() {
   };
 
   return (
-    <div className="flex h-screen w-full bg-[#0c0c0e] text-[#e4e4ea] font-mono overflow-hidden">
+    <div className="flex h-screen w-screen bg-[#0c0c0e] text-[#e4e4ea] font-mono overflow-hidden">
       <LeftPanel 
         onAddRow={addRow}
         onAddCol={addCol}
@@ -371,6 +389,8 @@ export function TableEditor() {
         selectedRC={selectedRC}
         updateSelectionStyle={updateSelectionStyle}
         clearSelectionStyle={clearSelectionStyle}
+        onSelectParentRow={handleSelectParentRow}
+        onSelectParentCol={handleSelectParentCol}
       />
     </div>
   );
