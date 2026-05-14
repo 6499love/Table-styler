@@ -51,16 +51,37 @@ export interface TableData {
 }
 
 export const PALETTES = [
-  {n:"暮金",  h:{bg:"#c8a96e",t:"#1a1207",bd:"#a08040"},c:{bg:"#1e1a12",t:"#e8d5a3",bd:"#3a3020"},alt:"#252015"},
-  {n:"霜蓝",  h:{bg:"#4a9ebb",t:"#0a1220",bd:"#2a7a99"},c:{bg:"#0e1a28",t:"#c8eaf5",bd:"#1a3040"},alt:"#121e2c"},
-  {n:"竹绿",  h:{bg:"#5aaa7a",t:"#0a1a10",bd:"#3a8a58"},c:{bg:"#0e1e14",t:"#c5ecd0",bd:"#1a3020"},alt:"#121e18"},
-  {n:"胭脂",  h:{bg:"#c04a6a",t:"#fff0f4",bd:"#903050"},c:{bg:"#1e0e14",t:"#f0ccd8",bd:"#351020"},alt:"#221218"},
-  {n:"烟紫",  h:{bg:"#7a5aaa",t:"#f5eeff",bd:"#5a3a88"},c:{bg:"#150f20",t:"#ddd0f0",bd:"#281a3a"},alt:"#191228"},
-  {n:"雪白",  h:{bg:"#222222",t:"#f8f8f6",bd:"#444444"},c:{bg:"#ffffff",t:"#222222",bd:"#e0e0e0"},alt:"#f4f4f2"},
-  {n:"拿铁",  h:{bg:"#6b4c2a",t:"#fdf8f2",bd:"#4a3018"},c:{bg:"#fdf8f2",t:"#4a3018",bd:"#ddd0b8"},alt:"#f5eedd"},
-  {n:"墨青",  h:{bg:"#1a3a3a",t:"#e0f0f0",bd:"#0a2828"},c:{bg:"#ffffff",t:"#1a3a3a",bd:"#c0dada"},alt:"#edf5f5"},
-  {n:"珊瑚",  h:{bg:"#e07060",t:"#fff5f3",bd:"#b85040"},c:{bg:"#fff8f6",t:"#3a2020",bd:"#f0c8c0"},alt:"#fdf0ec"},
-  {n:"夜金",  h:{bg:"#2a2010",t:"#c8a96e",bd:"#1a1408"},c:{bg:"#141008",t:"#e8d5a3",bd:"#2a2010"},alt:"#10080a"},
+  // Claude 风格
+  {cat:"Claude 风格", n:"沙丘白",  h:{bg:"#F0EFEA",t:"#2B2925",bd:"#E4E0D5"},c:{bg:"#FFFFFF",t:"#2B2925",bd:"#E4E0D5"},alt:"#FDFCFA"},
+  {cat:"Claude 风格", n:"琥珀橙",  h:{bg:"#D97757",t:"#FFFFFF",bd:"#C56142"},c:{bg:"#FFFFFF",t:"#2B2925",bd:"#E4E0D5"},alt:"#FFF9F5"},
+  {cat:"Claude 风格", n:"莫兰迪绿",  h:{bg:"#6BA8A5",t:"#FFFFFF",bd:"#568784"},c:{bg:"#FFFFFF",t:"#2B2925",bd:"#E4E0D5"},alt:"#F2F7F6"},
+  {cat:"Claude 风格", n:"暖石灰",  h:{bg:"#D5D4CD",t:"#2B2925",bd:"#B3B2AB"},c:{bg:"#F5F4EF",t:"#2B2925",bd:"#E4E0D5"},alt:"#EBEAE3"},
+  {cat:"Claude 风格", n:"锈红色",  h:{bg:"#A15443",t:"#FFFFFF",bd:"#8A4637"},c:{bg:"#F5F4EF",t:"#2B2925",bd:"#E4E0D5"},alt:"#FFFFFF"},
+  {cat:"Claude 风格", n:"炭黑",  h:{bg:"#242321",t:"#EFECE6",bd:"#3F3E3B"},c:{bg:"#2B2A27",t:"#EFECE6",bd:"#3F3E3B"},alt:"#33322E"},
+
+  // 新粗野主义 风格
+  {cat:"新粗野主义 风格", n:"复古卡其", h:{bg:"#D4D1A7",t:"#000000",bd:"#000000"}, c:{bg:"#FFFFFF",t:"#000000",bd:"#000000"}, alt:"#F2F1E5"},
+  {cat:"新粗野主义 风格", n:"高街亮橙", h:{bg:"#F9561E",t:"#000000",bd:"#000000"}, c:{bg:"#FFFFFF",t:"#000000",bd:"#000000"}, alt:"#FDEBE4"},
+  {cat:"新粗野主义 风格", n:"薄荷海苔", h:{bg:"#89D1A4",t:"#000000",bd:"#000000"}, c:{bg:"#FFFFFF",t:"#000000",bd:"#000000"}, alt:"#E7F6ED"},
+  {cat:"新粗野主义 风格", n:"酸性橄榄", h:{bg:"#96AC25",t:"#000000",bd:"#000000"}, c:{bg:"#FFFFFF",t:"#000000",bd:"#000000"}, alt:"#EDF3D6"},
+  {cat:"新粗野主义 风格", n:"千禧艳粉", h:{bg:"#FF80C0",t:"#000000",bd:"#000000"}, c:{bg:"#FFFFFF",t:"#000000",bd:"#000000"}, alt:"#FFE6F3"},
+  {cat:"新粗野主义 风格", n:"警告明黄", h:{bg:"#FFC900",t:"#000000",bd:"#000000"}, c:{bg:"#FFFFFF",t:"#000000",bd:"#000000"}, alt:"#FFF8D9"},
+
+  // 新极简主义 风格
+  {cat:"新极简主义 风格", n:"纯净白", h:{bg:"#F3F4F6",t:"#111111",bd:"#D1D5DB"}, c:{bg:"#FFFFFF",t:"#333333",bd:"#E5E7EB"}, alt:"#F9FAFB"},
+  {cat:"新极简主义 风格", n:"月光灰", h:{bg:"#F7F7F7",t:"#000000",bd:"#EEEEEE"}, c:{bg:"#FFFFFF",t:"#222222",bd:"#EEEEEE"}, alt:"#F9F9F9"},
+  {cat:"新极简主义 风格", n:"自然亚麻", h:{bg:"#F5F3ED",t:"#3D3A35",bd:"#E8E5DF"}, c:{bg:"#FFFFFF",t:"#3D3A35",bd:"#E8E5DF"}, alt:"#F9F8F5"},
+  {cat:"新极简主义 风格", n:"极简夜", h:{bg:"#3A3A3C",t:"#FFFFFF",bd:"#48484A"}, c:{bg:"#1C1C1E",t:"#EBEBF5",bd:"#48484A"}, alt:"#242426"},
+  {cat:"新极简主义 风格", n:"柔雾蓝", h:{bg:"#F0F4F8",t:"#102A43",bd:"#D9E2EC"}, c:{bg:"#FFFFFF",t:"#243B53",bd:"#D9E2EC"}, alt:"#F8FAFC"},
+  {cat:"新极简主义 风格", n:"淡抹茶", h:{bg:"#F2F5F0",t:"#1E3323",bd:"#E1E8E0"}, c:{bg:"#FFFFFF",t:"#2A4230",bd:"#E1E8E0"}, alt:"#F7F9F6"},
+
+  // 微软 风格
+  {cat:"微软 风格", n:"Excel绿",  h:{bg:"#107C41",t:"#FFFFFF",bd:"#0F703B"},c:{bg:"#FFFFFF",t:"#242424",bd:"#D2D2D2"},alt:"#F3F2F1"},
+  {cat:"微软 风格", n:"Word蓝",  h:{bg:"#185ABD",t:"#FFFFFF",bd:"#144A9C"},c:{bg:"#FFFFFF",t:"#242424",bd:"#D2D2D2"},alt:"#F3F2F1"},
+  {cat:"微软 风格", n:"PPT红",  h:{bg:"#C43E1C",t:"#FFFFFF",bd:"#B03310"},c:{bg:"#FFFFFF",t:"#242424",bd:"#D2D2D2"},alt:"#F3F2F1"},
+  {cat:"微软 风格", n:"Fluent白",  h:{bg:"#F3F2F1",t:"#323130",bd:"#EDEBE9"},c:{bg:"#FFFFFF",t:"#323130",bd:"#EDEBE9"},alt:"#FAFAFA"},
+  {cat:"微软 风格", n:"Teams紫",  h:{bg:"#5B5FC7",t:"#FFFFFF",bd:"#5053B5"},c:{bg:"#FFFFFF",t:"#242424",bd:"#D2D2D2"},alt:"#F3F2F1"},
+  {cat:"微软 风格", n:"雅黑",    h:{bg:"#000000",t:"#FFFFFF",bd:"#111111"},c:{bg:"#FFFFFF",t:"#000000",bd:"#CCCCCC"},alt:"#EEEEEE"},
 ];
 
 export const INITIAL_DATA: string[][] = [
@@ -79,7 +100,7 @@ export const DEFAULT_GLOBAL_STYLE: GlobalStyle = {
   padding: 10,
   gap: 3,
   fontSize: 14,
-  fontFamily: "'Noto Sans SC', sans-serif",
+  fontFamily: "'Inter', sans-serif",
   hAlign: 'left',
   vAlign: 'top',
   headerOn: true,

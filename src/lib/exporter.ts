@@ -4,7 +4,7 @@ export async function exportTableAsPNG(element: HTMLElement, scale = 2) {
   try {
     const dataUrl = await toPng(element, {
       pixelRatio: scale,
-      backgroundColor: '#0c0c0e', // Match the dark theme background or make it transparent
+      backgroundColor: 'transparent', // Match the dark theme background or make it transparent
       style: {
         margin: '0',
       }
@@ -22,7 +22,7 @@ export async function exportTableAsPNG(element: HTMLElement, scale = 2) {
 export async function exportTableAsSVG(element: HTMLElement) {
   try {
     const dataUrl = await toSvg(element, {
-      backgroundColor: '#0c0c0e',
+      backgroundColor: 'transparent',
     });
     
     const link = document.createElement('a');

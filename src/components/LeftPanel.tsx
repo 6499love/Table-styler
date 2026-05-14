@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GlobalStyle, CellStyle, PALETTES } from '../lib/types';
 import { cn } from '../lib/utils';
-import { Upload, Trash2, Plus, Grid, Download, Image as ImageIcon, RefreshCw, FileText } from 'lucide-react';
+import { Upload, Trash2, Plus, Grid, Download, Image as ImageIcon, RefreshCw, FileText, Sun, Moon } from 'lucide-react';
 
 interface LeftPanelProps {
   onAddRow: () => void;
@@ -15,6 +15,8 @@ interface LeftPanelProps {
   onReset: () => void;
   onExportPNG: () => void;
   onExportSVG: () => void;
+  isDarkMode: boolean;
+  setIsDarkMode: (v: boolean) => void;
 }
 
 export function LeftPanel({
@@ -28,43 +30,54 @@ export function LeftPanel({
   onImportCSV,
   onReset,
   onExportPNG,
-  onExportSVG
+  onExportSVG,
+  isDarkMode,
+  setIsDarkMode
 }: LeftPanelProps) {
   const [csvContent, setCsvContent] = useState('');
 
   return (
-    <div className="w-[320px] flex flex-col bg-[#141416] border-r border-[#2c2c32] shrink-0 h-full">
+    <div className="w-[320px] flex flex-col bg-ui-bg2 border-r border-ui-border shrink-0 h-full">
       {/* Header */}
-      <div className="h-14 px-6 flex items-center gap-3 border-b border-[#2c2c32] bg-[#141416]">
-        <div className="w-8 h-8 bg-[#c9aa72] rounded flex items-center justify-center text-[#141416] font-bold font-serif text-xl">
-          T
+      <div className="h-14 px-6 flex items-center justify-between border-b border-ui-border bg-ui-bg2">
+        <div className="flex items-center gap-3">
+          <div className="w-7 h-7 bg-ui-text1 rounded-md flex items-center justify-center text-ui-bg1 font-serif text-lg leading-none pt-0.5">
+            C
+          </div>
+          <div>
+            <h1 className="font-serif text-ui-text1 text-[17px] leading-none mb-1">Canvas Edit</h1>
+            <p className="text-ui-text2 text-[10px] font-medium leading-none">TABLE PRO</p>
+          </div>
         </div>
-        <div>
-          <h1 className="font-serif text-[#e4e4ea] text-base tracking-wide font-bold">Table Styler</h1>
-          <p className="text-[#60607a] text-[10px] uppercase tracking-widest">Pro Edition</p>
-        </div>
+        <button 
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          className="w-8 h-8 flex items-center justify-center rounded-lg border border-ui-border text-ui-text2 hover:text-ui-text1 hover:bg-ui-hover transition-colors"
+          title={isDarkMode ? "切换到白天模式" : "切换到黑夜模式"}
+        >
+          {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
         
         {/* DATA IMPORT */}
         <Section title="数据源" icon={<FileText size={14} />}>
-          <div className="border-2 border-dashed border-[#2c2c32] rounded-lg p-6 text-center hover:border-[#c9aa72] transition-colors relative group cursor-pointer bg-[#1c1c1f]/50 mb-4">
+          <div className="border border-dashed border-ui-border rounded-xl p-6 text-center hover:border-ui-accent transition-colors relative group cursor-pointer bg-ui-bg1 mb-4 flex flex-col items-center justify-center min-h-[120px]">
             <input 
               type="file" 
               accept=".xlsx,.xls,.csv" 
               onChange={onFileUpload}
               className="absolute inset-0 opacity-0 cursor-pointer" 
             />
-            <Upload className="w-8 h-8 mx-auto mb-3 text-[#60607a] group-hover:text-[#c9aa72] transition-colors" />
-            <p className="text-sm text-[#e4e4ea] font-medium mb-1">
-              点击或拖拽上传
+            <Upload className="w-6 h-6 mb-3 text-ui-text2 group-hover:text-ui-accent transition-colors" />
+            <p className="text-sm text-ui-text1 font-medium mb-1">
+              上传数据文件
             </p>
-            <p className="text-xs text-[#60607a]">
-              支持 .xlsx / .csv 格式
+            <p className="text-xs text-ui-text2">
+              .xlsx / .csv
             </p>
-            <p className="text-[10px] text-[#60607a] mt-2">
-              仅读取第一个 Sheet，最大 30x30
+            <p className="text-[10px] text-ui-text2 mt-2 opacity-80">
+              上限: 30 × 30 cells
             </p>
           </div>
           
@@ -73,12 +86,12 @@ export function LeftPanel({
               value={csvContent}
               onChange={e => setCsvContent(e.target.value)}
               placeholder="在此粘贴 Excel 或 CSV 数据..."
-              className="w-full h-24 bg-[#1c1c1f] border border-[#2c2c32] text-[#e4e4ea] text-sm p-3 rounded-lg outline-none resize-none focus:border-[#6eb5c8] placeholder:text-[#60607a] transition-colors"
+              className="w-full h-24 bg-ui-bg1 border border-ui-border text-ui-text1 text-sm p-3 rounded-lg outline-none resize-none focus:border-ui-text1 placeholder:text-ui-text2 transition-colors font-mono"
             />
             <Button onClick={() => onImportCSV(csvContent)} variant="secondary" className="w-full">
               导入文本数据
             </Button>
-            <p className="text-[#60607a] text-[10px] text-center mt-2">
+            <p className="text-ui-text2 text-[10px] text-center mt-2">
               注意：为了防止卡顿，表格最大限制为 30 行 × 30 列
             </p>
           </div>
@@ -111,8 +124,8 @@ export function LeftPanel({
 
       </div>
       
-      <div className="p-4 border-t border-[#2c2c32] text-center">
-        <p className="text-xs text-[#60607a]">v3.1.0 • Auto-saved</p>
+      <div className="p-4 border-t border-ui-border text-center">
+        <p className="text-xs text-ui-text2">v3.1.0 • Auto-saved</p>
       </div>
     </div>
   );
@@ -122,9 +135,9 @@ export function LeftPanel({
 
 const Section = ({ title, icon, children }: { title: string, icon?: React.ReactNode, children: React.ReactNode }) => (
   <div>
-    <div className="flex items-center gap-2 mb-4 text-[#c9aa72]">
+    <div className="flex items-center gap-2 mb-4 text-ui-text1">
       {icon}
-      <h3 className="text-xs font-bold uppercase tracking-wider">{title}</h3>
+      <h3 className="text-[13px] font-medium">{title}</h3>
     </div>
     {children}
   </div>
@@ -134,10 +147,10 @@ const Button = ({ onClick, children, variant = 'primary', className }: any) => (
   <button
     onClick={onClick}
     className={cn(
-      "flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all active:scale-95",
-      variant === 'primary' && "bg-[#c9aa72] text-[#0c0c0e] hover:bg-[#dbbe86] shadow-lg shadow-[#c9aa72]/10",
-      variant === 'secondary' && "bg-[#1c1c1f] border border-[#2c2c32] text-[#e4e4ea] hover:border-[#60607a] hover:bg-[#222226]",
-      variant === 'danger' && "bg-[#1c1c1f] border border-[#2c2c32] text-[#c06870] hover:border-[#c06870] hover:bg-[#c06870]/10",
+      "flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-all active:scale-[0.98]",
+      variant === 'primary' && "bg-ui-text1 text-ui-bg1 hover:opacity-90 shadow-sm",
+      variant === 'secondary' && "bg-ui-bg1 border border-ui-border text-ui-text1 hover:bg-ui-hover",
+      variant === 'danger' && "bg-white dark:bg-ui-bg2 border border-ui-border text-ui-danger hover:border-ui-danger hover:bg-red-50 dark:hover:bg-red-950/30",
       className
     )}
   >

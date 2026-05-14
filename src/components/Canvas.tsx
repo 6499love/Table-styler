@@ -97,13 +97,15 @@ export function Canvas({
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0c0c0e] min-w-0" style={{ flex: 1 }}>
+    <div className="flex-1 flex flex-col h-full overflow-hidden bg-ui-bg1 min-w-0" style={{ flex: 1 }}>
       {/* Preview Area */}
       <div 
         ref={previewRef}
-        className="flex-1 overflow-auto p-8 flex items-start justify-center bg-[#101012]"
+        className="flex-1 overflow-auto p-8 flex items-start justify-center"
         style={{
-          backgroundImage: 'repeating-linear-gradient(45deg, #101012 0, #101012 10px, #0c0c0e 10px, #0c0c0e 20px)'
+          backgroundImage: 'var(--canvas-pattern)',
+          backgroundSize: '24px 24px',
+          backgroundPosition: '0 0'
         }}
         onClick={(e) => {
           if (e.target === e.currentTarget) {
@@ -152,9 +154,9 @@ export function Canvas({
                         "outline-none cursor-default transition-all duration-75 relative",
                         !style.wrapText && "whitespace-pre",
                         style.wrapText && "whitespace-pre-wrap break-words",
-                        isEditing && "cursor-text ring-2 ring-[#6eb5c8] z-50",
-                        isSelected && !isEditing && "ring-2 ring-[#c9aa72] z-40",
-                        isRCSelected && !isSelected && !isEditing && "ring-2 ring-[#6eb5c8] z-30 opacity-90"
+                        isEditing && "cursor-text ring-2 ring-ui-select z-50",
+                        isSelected && !isEditing && "ring-[2px] ring-ui-accent z-40",
+                        isRCSelected && !isSelected && !isEditing && "ring-1 ring-ui-select z-30 opacity-90"
                       )}
                       style={{
                         backgroundColor: style.bg,

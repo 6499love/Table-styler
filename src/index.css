@@ -1,10 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@400;500&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Noto Serif SC", ui-serif, Georgia, serif;
-  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
+
+  --color-ui-bg1: var(--ui-bg1);
+  --color-ui-bg2: var(--ui-bg2);
+  --color-ui-bg3: var(--ui-bg3);
+  --color-ui-hover: var(--ui-hover);
+  --color-ui-border: var(--ui-border);
+  --color-ui-text1: var(--ui-text1);
+  --color-ui-text2: var(--ui-text2);
+  --color-ui-text-inv: var(--ui-text-inv);
+  --color-ui-accent: var(--ui-accent);
+  --color-ui-accent-hover: var(--ui-accent-hover);
+  --color-ui-danger: var(--ui-danger);
+  --color-ui-select: var(--ui-select);
+}
+
+:root {
+  /* Claude Light Theme */
+  --ui-bg1: #F5F4EF;
+  --ui-bg2: #FFFFFF;
+  --ui-bg3: #F0EFEA;
+  --ui-hover: #EBEAE3;
+  --ui-border: #E4E0D5;
+  --ui-text1: #2B2925;
+  --ui-text2: #6B685F;
+  --ui-text-inv: #FFFFFF;
+  --ui-accent: #D97757;
+  --ui-accent-hover: #C56142;
+  --ui-danger: #D64545;
+  --ui-select: #6BA8A5;
+  --canvas-pattern: radial-gradient(var(--ui-border) 1px, transparent 1px);
+}
+
+.dark {
+  /* Claude Dark Theme */
+  --ui-bg1: #1E1D1B;
+  --ui-bg2: #242321;
+  --ui-bg3: #2B2A27;
+  --ui-hover: #33322E;
+  --ui-border: #3F3E3B;
+  --ui-text1: #EFECE6;
+  --ui-text2: #A3A099;
+  --ui-text-inv: #1E1D1B;
+  --ui-accent: #D97757;
+  --ui-accent-hover: #C56142;
+  --ui-danger: #D64545;
+  --ui-select: #6BA8A5;
+  --canvas-pattern: radial-gradient(var(--ui-border) 1px, transparent 1px);
 }
 
 html, body, #root {

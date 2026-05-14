@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import { LeftPanel } from './LeftPanel';
 import { RightPanel } from './RightPanel';
 import { Canvas } from './Canvas';
+import { cn } from '../lib/utils';
 import { 
   GlobalStyle, 
   CellStyle, 
@@ -23,6 +24,7 @@ export function TableEditor() {
   const [selectedCells, setSelectedCells] = useState<Set<string>>(new Set());
   const [selectedRC, setSelectedRC] = useState<Set<number>>(new Set());
   const [selectionMode, setSelectionMode] = useState<'cell' | 'row' | 'col'>('cell');
+  const [isDarkMode, setIsDarkMode] = useState(true);
   
   const tableRef = useRef<HTMLTableElement>(null);
 
@@ -426,7 +428,7 @@ export function TableEditor() {
   };
 
   return (
-    <div className="flex h-screen w-screen bg-[#0c0c0e] text-[#e4e4ea] font-mono overflow-hidden">
+    <div className={cn("flex h-screen w-screen bg-ui-bg1 text-ui-text1 font-sans overflow-hidden", isDarkMode && "dark")}>
       <LeftPanel 
         onAddRow={addRow}
         onAddCol={addCol}
@@ -439,6 +441,8 @@ export function TableEditor() {
         onReset={resetTable}
         onExportPNG={handleExportPNG}
         onExportSVG={handleExportSVG}
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
       />
       
       <Canvas 
